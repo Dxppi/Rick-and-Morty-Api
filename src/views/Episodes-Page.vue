@@ -24,7 +24,10 @@
               </div>
             
           </div>>
+          <button @click="nextPage()" class="loadMore"> <h3 class="loadMore-text">Load More</h3></button>
         </div>
+
+
     </main>
 
 
@@ -40,16 +43,29 @@ export default {
     return {
       episodes: [],
       search:'',
+      pageNumber: 1
     };
   },
   computed: {
       filteredItems(){
         return this.episodes.filter( item => {
-          return item.name.toLowerCase().includes(this.search);
+          return item.name.toLowerCase().includes(this.search.toLowerCase());
 
         })
       },     
   },
+  methods:{
+      nextPage(){
+         this.pageNumber++;
+         axios.get(`https://rickandmortyapi.com/api/episode/?page=${this.pageNumber}`)
+    .then (response => (
+      (response.data.results.map(item=>this.episodes.push(item)))))
+    .catch(err => {
+      console.log(err)
+    })
+      },
+  },
+
   mounted(){
     return axios.get("https://rickandmortyapi.com/api/episode")
     .then (response => (
@@ -76,10 +92,7 @@ export default {
 }
 .card__content{
   text-align: center;
-  height: 100%;
   padding:80px 0;
-  font-family: Roboto,serif;
-  font-style:Medium
 }
 
 </style>

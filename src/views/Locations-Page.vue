@@ -20,9 +20,11 @@
                   </div> 
                 </router-link>
               </div>
-            
-          </div>>
+              
+            </div>>
+            <button @click="nextPage()" class="loadMore"> <h3 class="loadMore-text">Load More</h3></button>
         </div>
+
     </main>
 
 
@@ -38,15 +40,27 @@ export default {
     return {
       locations: [],
       search:'',
+      pageNumber:1
     };
   },
   computed: {
       filteredItems(){
         return this.locations.filter( item => {
-          return item.name.toLowerCase().includes(this.search);
+          return item.name.toLowerCase().includes(this.search.toLowerCase());
 
         })
       },     
+  },
+  methods:{
+      nextPage(){
+         this.pageNumber++;
+         axios.get(`https://rickandmortyapi.com/api/location/?page=${this.pageNumber}`)
+    .then (response => (
+      (response.data.results.map(item=>this.locations.push(item)))))
+    .catch(err => {
+      console.log(err)
+    })
+      },
   },
   mounted(){
     return axios.get("https://rickandmortyapi.com/api/location")
@@ -74,10 +88,7 @@ export default {
 }
 .card__content{
   text-align: center;
-  height: 100%;
   padding:80px 0;
-  font-family: Roboto,serif;
-  font-style:Medium
 }
 
 </style>

@@ -2,8 +2,9 @@
     <main class="main">
         <div class="main__about">
             <h1 class="title-text">{{location.name}}</h1>
-            <h2 class="subtitle-text">{{location.type}}</h2>
-            <h2 class="subtitle-text">{{location.dimension}}</h2>
+            <h2 class="subtitle-text">type: {{location.type}}</h2>
+            <h2 class="subtitle-text">dimension: {{location.dimension}}</h2>
+            
         </div>
 
         <div class="main__row">
@@ -43,8 +44,8 @@ export default {
             location:[],
             id: this.$route.params.id,
             CharacterData:[],
-            search: ''
-
+            search: '',
+            
         }
     },
     mounted(){
@@ -61,7 +62,7 @@ export default {
     computed: {
       filteredItems(){ 
         return this.CharacterData.filter( item => {
-          return item.name.toLowerCase().includes(this.search);
+          return item.name.toLowerCase().includes(this.search.toLowerCase());
 
         })
       }
@@ -78,45 +79,17 @@ export default {
     .main__about {
         margin-bottom: 50px;
     }
-    .subtitle-text{
-        font-family: Roboto,sans-serif;
-        line-height: 100%;
-        font-weight: 300;
+    .subtitle-text{  
         color: rgb(32, 35, 41);
-        font-size: 2vw;
         margin:0 auto;
-        text-align: center;
-        
+        text-align: center;  
     }
-    @media (max-width: 1000px) {
-        .subtitle-text{
-          font-family: Roboto,sans-serif;
-          line-height: 100%;
-          font-weight: 500;
-          color: rgb(32, 35, 41);
-          font-size: 8vw;
-                  
-        }
-      }
+    
     .title-text{
-        font-family: Roboto,sans-serif;
-        line-height: 100%;
-        font-weight: 300;
         color: rgb(32, 35, 41);
-        font-size: 4vw;
         margin:0 auto;
         margin-bottom: 2%;
         margin-top:5%;
         text-align: center;
-    }
-    @media (max-width: 1000px) {
-      .title-text{
-        font-family: Roboto,sans-serif;
-        line-height: 100%;
-        font-weight: 500;
-        color: rgb(32, 35, 41);
-        font-size: 10vw;
-                
-      }
     }
 </style>

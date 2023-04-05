@@ -45,8 +45,8 @@
                     <h3 v-if="character.type">Type</h3>
                     <p class="text-blue">{{character.type}}</p>
                   </div>
-                  <router-link to="#">
-                    <div class="column-item">
+                  <router-link :to='/location/ + locationId'>
+                    <div class="column-item url">
                       <h3>Location</h3>
                       <p class="text-blue">{{character.location?.name}}</p>
                     </div>
@@ -74,23 +74,9 @@
         
     }
     .title-text{
-        font-family: Roboto,sans-serif;
-        line-height: 100%;
-        font-weight: 300;
         color: rgb(32, 35, 41);
-      font-size: 4vw;
-      
     }
-    @media (max-width: 1000px) {
-      .title-text{
-        font-family: Roboto,sans-serif;
-        line-height: 100%;
-        font-weight: 500;
-        color: rgb(32, 35, 41);
-        font-size: 10vw;
-                
-      }
-    }
+  
     .main__titleHero{
         display: flex;
         width: 50%;
@@ -133,7 +119,7 @@
       .contentWrapper__left{
         display: flex;
         width: 100%;
-        font-size: 1.2vw; 
+        
         
       }
       
@@ -145,21 +131,18 @@
         gap:10px;
         
       }
-    @media (max-width: 1000px) {
-      .contentWrapper__left{
-        font-size: 4.5vw;
-                
-      }
-    }
+    
     .column-item{
 
       color: white;
       width: 100%;
-      font-weight: 900;
       letter-spacing: 0.15px;
-      font-style: bold;
       box-shadow: 0px 0.5px 0px 0px rgba(0, 0, 0, 0.2)
       
+    }
+
+    .url focus, .url:hover{
+      color: orange;
     }
     .contentWrapper__right-column{
       display: flex;
@@ -187,12 +170,15 @@ export default {
     return {
       id: this.$route.params.id,
       character: [],
+      locationId: [],
     };
   },
   mounted(){
     return axios.get(`https://rickandmortyapi.com/api/character/${this.id}`)
     .then (response => (
-      this.character = response.data ))
+      this.character = response.data,
+      axios.get(response.data.location.url).then(res => this.locationId = res.data.id)
+    ))
     .catch(err => {
       console.log(err)
     })
